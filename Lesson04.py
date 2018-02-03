@@ -25,7 +25,9 @@ while answer != 'q':
 		print ('[5] - дублировать указанный файл')
 		print ('[6] - удалить все фалы в текущей директории')
 		print ('[7] - удаление выбранного файла')
-		print ('[8] - удаление файлов с определенным окончаниями')
+		print ('[8] - вывести список файлов в выбранной директории')
+		print ('[9] - удаление файлов с определенными окончаниями в выбранной директории')
+		print ('[10] - удаление всех файлов в выбранной директории')
 		do = int (input ("Укажите номер действия: "))
 		if do == 1:
 			print (f'Список файлов {os.listdir()}')
@@ -57,7 +59,7 @@ while answer != 'q':
 				choice = int (input ('Вы хотите выбрать дублируемыйй файл по индексу или по имени? (индекс - 1; имя - 2)' ))
 				if choice == 1:
 					file_two = os.listdir()
-					i = int (input ('Укажите индекс файла (начиная считать с верхней строки от числа 0 слева направо), который необходимо дублировать: '))
+					i = int (input ('Укажите индекс файла, который необходимо дублировать (начинать считать с верхней строки от числа 0 слева направо): '))
 					if i != '':
 						newfile = file_two[i] + '.' + ending
 						shutil.copy (file_two[i], newfile)
@@ -88,6 +90,7 @@ while answer != 'q':
 			else:
 				print ('Введено неизвестное значение.')
 		elif do == 7:
+			print ('Удаление выбранного файла по имени.')
 			filename = input ('Укажите имя файла, который необходимо удалить: ')
 			if os.path.isfile (filename):
 				os.remove (filename)
@@ -95,12 +98,16 @@ while answer != 'q':
 			else:
 				print ('Файл не найден.')
 		elif do == 8:
-			print ('Удаление файлов с определенным окончаниями.')
+			print ('Вывод списка файлов в указанной директории.')
+			dirname = input ('Введите имя директории (в конце строки укажите две "\\"): ')
+			print (f'Список файлов: {os.listdir(dirname)}')
+		elif do == 9:
+			print ('Удаление файлов с определенным окончаниями в выбранной директории.')
 			ending = input ('Файл с каким буквенным окончанием вы хотели бы удалить? ')
 			if ending != '':
-				dirname = input ('Введите имя директории: ')
+				dirname = input ('Введите имя директории (в конце строки укажите две "\\"): ')
 				file_list = os.listdir(dirname)
-				i=0
+				i = 0
 				while i < len (file_list):
 					fullname = os.path.join (dirname, file_list[i])
 					if fullname.endswith ('.' + ending):
@@ -108,6 +115,16 @@ while answer != 'q':
 					i += 1
 			else:
 				print ('Окончание не введено.')
+		elif do == 10:
+			print ('Удаление всех файлов в выбранной директории.')
+			dirname = input ('Введите имя директории (в конце строки укажите две "\\"): ')
+			file_list = os.listdir(dirname)
+			i = 0
+			while i < len (file_list):
+				fullname = os.path.join (dirname, file_list[i])
+				if os.path.isfile (fullname):
+					os.remove (fullname)
+				i += 1
 	elif answer == 'N':
 		print (name + ', you are fired.')
 	elif answer == 'q':
